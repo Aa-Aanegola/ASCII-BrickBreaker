@@ -59,9 +59,6 @@ DESTROYED = "Death Star"
 DAMAGED = "Anakin Skywalker"
 
 
-# Print with separator and end defined to be ''
-Print = lambda content: print(*content, sep='', end='', flush=True)
-
 # Powerup related definitions 
 POWERUP_DURATION = 10
 POWERUP_PROBABILITY = 0.2
@@ -80,3 +77,6 @@ SHRINK_PADDLE = "shrinky paddle"
 GROW_PADDLE = "paddle go brrr"
 FAST_BALL = "speedy bollocks"
 PADDLE_GRAB = "A Jedi craves not attachment"
+
+# Print with separator and end defined to be ''
+Print = lambda content: print(*content, sep='', end='', flush=True)

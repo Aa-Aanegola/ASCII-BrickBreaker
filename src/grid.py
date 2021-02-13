@@ -186,28 +186,28 @@ class Grid:
                 grid_y = cur_y - 1
                 grid_x = (cur_x - 1)//BRICK_LENGTH - 1
                 position = (cur_y+1, cur_x)
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state)
                 
             if break_r and cur_x != self.width:
                 scored = True
                 grid_y = cur_y - 1
                 grid_x = cur_x // BRICK_LENGTH
                 position = (cur_y+1, cur_x)
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state)
                 
             if break_u and cur_y != 1:
                 scored = True
                 grid_y = cur_y - 2
                 grid_x = (cur_x-1) // BRICK_LENGTH
                 position = (cur_y+1, cur_x)
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state)
                 
             if break_d and cur_y != self.height-1:
                 scored = True
                 grid_y = cur_y
                 grid_x = (cur_x-1) // BRICK_LENGTH
                 position = (cur_y+1, cur_x)
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state)
                 
             if scored:
                 self.player.increment_score(destroyed)
