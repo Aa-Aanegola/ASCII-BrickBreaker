@@ -61,7 +61,7 @@ DAMAGED = "Anakin Skywalker"
 
 # Powerup related definitions 
 POWERUP_DURATION = 10
-POWERUP_PROBABILITY = 0.2
+POWERUP_PROBABILITY = 1
 
 ADD_POWERUP = "Unlimited Power!"
 REMOVE_POWERUP = "NOOOOOO!!"

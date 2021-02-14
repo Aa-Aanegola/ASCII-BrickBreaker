@@ -25,8 +25,16 @@ class Player:
                 ' Bricks Left: ', brick_count, ' Time: ', int(time.time() - self.start_time)])
         Print([MOVE_CURSOR % (self.height+5, 1)])
         
-    def lose_life(self):
+    def lose_life(self, ball, paddle):
         self.lives -= 1
+        
+        for powerup in self.active:
+            powerup.remove_effect(ball, paddle)
+            self.active.remove(powerup)
+        
+        for powerup in self.onscreen:
+            powerup.undraw()
+            self.onscreen.remove(powerup)
         
     def get_lives(self):
         return self.lives

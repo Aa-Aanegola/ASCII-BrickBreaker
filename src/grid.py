@@ -253,7 +253,7 @@ class Grid:
     
     def reset_state(self):
         self.paddle.reset_position()
-        self.player.lose_life()
+        self.player.lose_life(self.ball, self.paddle)
         self.ball.reset_position()
         self.reset = True
         
