@@ -75,7 +75,7 @@ class Grid:
             self.move_ball()
         
         
-        self.player.move_powerup(self.ball, self.paddle)
+        self.player.move_powerup(self.ball, self.paddle, self.state)
         
         # Redraw the ball, the paddle and the player
         self.ball.draw()
@@ -230,7 +230,7 @@ class Grid:
         # Handles both walls and bricks
         if y != self.height and self.state[y][(x-1)//BRICK_LENGTH].notEmpty():
             ret.append(DFACE)
-        if y == 1 or self.state[(y-2)][(x-1)//BRICK_LENGTH].notEmpty():
+        if y == 1 or self.state[y-2][(x-1)//BRICK_LENGTH].notEmpty():
                 #Print([MOVE_CURSOR % (self.height+8, 1), "Hit Ceiling"])
             ret.append(UFACE)
             
@@ -253,7 +253,7 @@ class Grid:
     
     def reset_state(self):
         self.paddle.reset_position()
-        self.player.lose_life(self.ball, self.paddle)
+        self.player.lose_life(self.ball, self.paddle, self.state)
         self.ball.reset_position()
         self.reset = True
         

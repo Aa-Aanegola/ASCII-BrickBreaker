@@ -38,8 +38,8 @@ class Powerup:
         Print([MOVE_CURSOR % self.position, self.character])
         Print([MOVE_CURSOR % (self.bound+5, 1), RESET])
     
-    def undraw(self):
-        Print([MOVE_CURSOR % self.position, RESET, ' '])
+    def undraw(self, color):
+        Print([MOVE_CURSOR % self.position, color + ' '])
         Print([MOVE_CURSOR % (self.bound+5, 1)])    
     
 class ShrinkPaddle(Powerup):

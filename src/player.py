@@ -25,7 +25,7 @@ class Player:
                 ' Bricks Left: ', brick_count, ' Time: ', int(time.time() - self.start_time)])
         Print([MOVE_CURSOR % (self.height+5, 1)])
         
-    def lose_life(self, ball, paddle):
+    def lose_life(self, ball, paddle, state):
         self.lives -= 1
         
         for powerup in self.active:
@@ -33,7 +33,8 @@ class Player:
             self.active.remove(powerup)
         
         for powerup in self.onscreen:
-            powerup.undraw()
+            y, x = powerup.position
+            powerup.undraw(state[y-1][(x-1)//3].color)
             self.onscreen.remove(powerup)
         
     def get_lives(self):
@@ -53,10 +54,11 @@ class Player:
             elif powerup == PADDLE_GRAB:
                 self.onscreen.append(PaddleGrab(self.height-4, position))
     
-    def move_powerup(self, ball, paddle):
+    def move_powerup(self, ball, paddle, state):
         # Shifting powerups down and applying their effects
         for powerup in self.onscreen:
-            powerup.undraw()
+            y, x = powerup.position 
+            powerup.undraw(state[y-1][(x-1)//3].color)
             ret = powerup.move(paddle)
             
             if ret == ADD_POWERUP:

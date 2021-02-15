@@ -15,9 +15,19 @@ class Paddle:
         self.length = MIN_PADDLE_LENGTH
     
     def grow(self):
+        if self.position - MAX_PADDLE_LENGTH < 0:
+            self.position += 1
+        if self.position + MAX_PADDLE_LENGTH > self.bound:
+            self.position -= 1
+        
         self.length = MAX_PADDLE_LENGTH
     
     def reset_length(self):
+        if self.position - PADDLE_LENGTH < 0:
+            self.position += 1
+        if self.position + PADDLE_LENGTH > self.bound:
+            self.position -= 1
+            
         self.length = PADDLE_LENGTH
     
     def draw(self):
@@ -25,7 +35,7 @@ class Paddle:
         Print([' '*(self.position - self.length),
               self.color + ' '*(self.length*2+1),
               RESET,
-              ' '*(self.bound - self.length - self.position)
+              ' '*(self.bound - self.length - self.position+2)
         ])
         Print(MOVE_CURSOR % (self.height+3, 0))
     
