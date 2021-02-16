@@ -90,3 +90,15 @@ class PaddleGrab(Powerup):
     
     def remove_effect(self, ball, paddle):
         paddle.grab = False
+        
+class ThruBall(Powerup):
+    def __init__(self, bound, position):
+        super().__init__(bound, position)
+        self.type = THRU_BALL
+        self.character = THRU_BALL_CHARACTER
+        
+    def apply_effect(self, ball, paddle):
+        ball.thru = True
+    
+    def remove_effect(self, ball, paddle):
+        ball.thru = False

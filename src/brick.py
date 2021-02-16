@@ -23,13 +23,21 @@ class Brick:
             return True 
         return False
     
-    def damage(self, y, x, state):
-        if self.strength == 4 or self.strength == 0:
+    def damage(self, y, x, state, thru):
+        if thru == False and self.strength == 4 or self.strength == 0:
             return NO_EFFECT
-        
+       
         if self.strength == 5:
             self.strength = 0
-            self.explode(y, x, state)
+            self.explode(y, x, state, thru)
+        
+        broken = 1
+        if self.strength == 4:
+            broken = 0
+        
+        if thru:
+            self.strength = 1
+    
         
         if self.strength:
             self.strength -= 1
@@ -41,31 +49,31 @@ class Brick:
                RESET])
         
         if self.strength == 0:
-            Brick.count -= 1
+            Brick.count -= broken
             return DESTROYED
         
         return DAMAGED
     
-    def explode(self, y, x, state):
+    def explode(self, y, x, state, thru):
         rows = len(state)
         columns = len(state[0])
         
         if y != 0:
-            state[y-1][x].damage(y-1, x, state)
+            state[y-1][x].damage(y-1, x, state, thru)
             
             if x != 0:
-                state[y-1][x-1].damage(y-1, x-1, state)
-                state[y][x-1].damage(y, x-1, state)
+                state[y-1][x-1].damage(y-1, x-1, state, thru)
+                state[y][x-1].damage(y, x-1, state, thru)
                     
             if x != columns-1:
-                state[y-1][x+1].damage(y-1, x+1, state)
-                state[y][x+1].damage(y, x+1, state)
+                state[y-1][x+1].damage(y-1, x+1, state, thru)
+                state[y][x+1].damage(y, x+1, state, thru)
 
         if y != rows-1:
-            state[y+1][x].damage(y+1, x, state)
+            state[y+1][x].damage(y+1, x, state, thru)
             
             if x != 0:
-                state[y+1][x-1].damage(y+1, x-1, state)
+                state[y+1][x-1].damage(y+1, x-1, state, thru)
             
             if x != columns-1:
-                state[y+1][x+1].damage(y+1, x+1, state)
+                state[y+1][x+1].damage(y+1, x+1, state, thru)

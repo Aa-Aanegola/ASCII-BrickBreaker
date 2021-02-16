@@ -71,12 +71,17 @@ SHRINK_PADDLE_CHARACTER = 'S'
 GROW_PADDLE_CHARACTER = 'G'
 FAST_BALL_CHARACTER = 'F'
 PADDLE_GRAB_CHARACTER = 'P'
+THRU_BALL_CHARACTER = 'T'
 
 BASE_POWERUP = "to be or not to be"
 SHRINK_PADDLE = "shrinky paddle"
 GROW_PADDLE = "paddle go brrr"
 FAST_BALL = "speedy bollocks"
 PADDLE_GRAB = "A Jedi craves not attachment"
+THRU_BALL = "Not even Beskar..."
+
+
+POWERUP_LIST = [SHRINK_PADDLE, GROW_PADDLE, FAST_BALL, PADDLE_GRAB, THRU_BALL]
 
 # Print with separator and end defined to be ''
 Print = lambda content: print(*content, sep='', end='', flush=True)

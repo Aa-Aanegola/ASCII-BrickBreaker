@@ -7,7 +7,7 @@ class Player:
         self.score = 0
         self.height = height
         self.start_time = time.time()
-        self.powerups = [SHRINK_PADDLE, GROW_PADDLE, FAST_BALL, PADDLE_GRAB]
+        self.powerups = POWERUP_LIST
         self.active = []
         self.onscreen = []
         
@@ -53,6 +53,8 @@ class Player:
                 self.onscreen.append(FastBall(self.height-4, position))
             elif powerup == PADDLE_GRAB:
                 self.onscreen.append(PaddleGrab(self.height-4, position))
+            elif powerup == THRU_BALL:
+                self.onscreen.append(ThruBall(self.height-4, position))
     
     def move_powerup(self, ball, paddle, state):
         # Shifting powerups down and applying their effects
