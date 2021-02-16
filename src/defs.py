@@ -51,7 +51,7 @@ DFACE = "gravity says hi"
 EXITED = "ggwp"
 
 # Player values
-MAX_LIVES = 3
+MAX_LIVES = 5
 HIT_SCORE = 1
 DESTROY_SCORE = 5
 NO_EFFECT = "Jar Jar Binks"

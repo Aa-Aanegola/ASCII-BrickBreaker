@@ -142,7 +142,7 @@ class Grid:
                 vel_y, vel_x = self.ball.get_velocity()
              
             elif diff_x != 0 and vel_x < 0:
-             #   Print([MOVE_CURSOR % (self.height+6, 1), "left"])
+                Print([MOVE_CURSOR % (self.height+6, 1), "left"])
                 if LFACE in bounds:
                     break_l = True
                     vel_x *= -1
@@ -151,7 +151,7 @@ class Grid:
                     diff_x -= 1
             
             elif diff_x != 0 and vel_x > 0:
-              #  Print([MOVE_CURSOR % (self.height+6, 1), "right"])
+                Print([MOVE_CURSOR % (self.height+6, 1), "right"])
                 if RFACE in bounds:
                     break_r = True
                     vel_x *= -1
@@ -160,7 +160,7 @@ class Grid:
                     diff_x -= 1
             
             elif diff_y != 0 and vel_y < 0:
-               # Print([MOVE_CURSOR % (self.height+7, 1), "up  "])
+                Print([MOVE_CURSOR % (self.height+7, 1), "up  "])
                 if UFACE in bounds:
                     break_u = True
                     vel_y *= -1
@@ -169,7 +169,7 @@ class Grid:
                     diff_y -= 1
             
             elif diff_y != 0 and vel_y > 0:
-                #Print([MOVE_CURSOR % (self.height+7, 1), "down"])
+                Print([MOVE_CURSOR % (self.height+7, 1), "down"])
                 if DFACE in bounds:
                     break_d = True
                     vel_y *= -1
@@ -177,7 +177,7 @@ class Grid:
                     cur_y += 1
                     diff_y -= 1
 
-            #Print([MOVE_CURSOR % (self.height+11, 0), break_d])
+            Print([MOVE_CURSOR % (self.height+10, 0), cur_y, " ", cur_x, "  "])
             scored = False
             destroyed = NO_EFFECT 
             position = None  
@@ -186,6 +186,7 @@ class Grid:
                 grid_y = cur_y - 1
                 grid_x = (cur_x - 1)//BRICK_LENGTH - 1
                 position = (cur_y+1, cur_x)
+                Print([MOVE_CURSOR % (self.height+11, 0), grid_y, " ", grid_x])
                 destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state)
                 
             if break_r and cur_x != self.width:
@@ -226,7 +227,7 @@ class Grid:
         y, x = position
         ret = []
         
-        #Print([MOVE_CURSOR % (self.height+5, 0), y, '    ',  x, '    '])
+        Print([MOVE_CURSOR % (self.height+5, 0), y, '    ',  x, '    '])
         # Handles both walls and bricks
         if y != self.height and self.state[y][(x-1)//BRICK_LENGTH].notEmpty():
             ret.append(DFACE)
@@ -238,8 +239,11 @@ class Grid:
             if x == self.width or self.state[y-1][x//BRICK_LENGTH].notEmpty():
                 ret.append(RFACE)
         if x % BRICK_LENGTH == 1:
-            if x == 1 or self.state[y-1][(x-1)//BRICK_LENGTH].notEmpty():
+            if x == 1 or self.state[y-1][(x-2)//BRICK_LENGTH].notEmpty():
                 ret.append(LFACE)
+        if x % BRICK_LENGTH == 2:
+            if x == 2 or self.state[y-1][(x-3)//BRICK_LENGTH].notEmpty():
+                ret.append(LFACE)        
         # Check for paddle
         paddle_position, paddle_length = self.paddle.get_data()
         if y == self.height and paddle_position-paddle_length <= x-1 <= paddle_position+paddle_length:
