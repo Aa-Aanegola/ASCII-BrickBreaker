@@ -237,10 +237,13 @@ class Grid:
         
         #Print([MOVE_CURSOR % (self.height+5, 0), y, '    ',  x, '    '])
         # Handles both walls and bricks
+        
+        if y == 0:
+            exit()
+        
         if y != self.height and self.state[y][(x-1)//BRICK_LENGTH].notEmpty():
             ret.append(DFACE)
         if y == 1 or self.state[y-2][(x-1)//BRICK_LENGTH].notEmpty():
-                #Print([MOVE_CURSOR % (self.height+8, 1), "Hit Ceiling"])
             ret.append(UFACE)
             
         if x % BRICK_LENGTH == 0:

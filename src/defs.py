@@ -23,7 +23,7 @@ MOVE_CURSOR = "\033[%d;%dH"
 BRICK_LENGTH = 3
 
 # Number of rows between last brick row and paddle
-EMPTY_ROWS = 21
+EMPTY_ROWS = 20
 
 # Paddle span from centre to end
 PADDLE_LENGTH = 3
@@ -51,7 +51,7 @@ DFACE = "gravity says hi"
 EXITED = "ggwp"
 
 # Player values
-MAX_LIVES = 5
+MAX_LIVES = 500
 HIT_SCORE = 1
 DESTROY_SCORE = 5
 NO_EFFECT = "Jar Jar Binks"
