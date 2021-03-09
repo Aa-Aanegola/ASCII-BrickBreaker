@@ -27,9 +27,17 @@ This powerup increases the speed of the ball.
 
 This powerup gives the paddle the ability to make the ball stick to it, and release it at any point in time using the space key. 
 
-** Thru Ball (T)**:
+**Thru Ball (T)**:
 
 This powerup gives the ball the ability to phase through bricks, instantly destroying them (including the previously unbreakable bricks).
+
+**Laser Paddle (L)**:
+
+This powerup gives the paddle the ability to automatically fire lasers from its ends. The lasers damage the bricks the same way a ball would. 
+
+**Fire Ball (E)**:
+
+This powerup gives the ball an exploding property, and has the same effect as an exploding brick. 
 
 ### Modifications
 The map is drawn from the level.txt file present in extra. It is fairly simple to create a map to play on, simply use numbers 1-3 to represent bricks of varying strength, 0 to represent free space, 4 to represent unbreakable bricks and 5 to represent exploding bricks. 

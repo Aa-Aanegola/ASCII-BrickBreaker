@@ -34,13 +34,13 @@ class Brick:
                self.color + ' ' * BRICK_LENGTH,
                RESET])
     
-    def damage(self, y, x, state, thru, exploded):
+    def damage(self, y, x, state, thru, exploded, fireball):
         if exploded == False and thru == False and self.strength == 4 or self.strength == 0:
             return NO_EFFECT
 
         self.rainbow = False
         
-        if self.strength == 5:
+        if self.strength == 5 or fireball:
             self.strength = 0
             self.explode(y, x, state, thru)
         
@@ -76,21 +76,21 @@ class Brick:
         columns = len(state[0])
         
         if y != 0:
-            state[y-1][x].damage(y-1, x, state, thru, True)
+            state[y-1][x].damage(y-1, x, state, thru, True, False)
             
             if x != 0:
-                state[y-1][x-1].damage(y-1, x-1, state, thru, True)
-                state[y][x-1].damage(y, x-1, state, thru, True)
+                state[y-1][x-1].damage(y-1, x-1, state, thru, True, False)
+                state[y][x-1].damage(y, x-1, state, thru, True, False)
                     
             if x != columns-1:
-                state[y-1][x+1].damage(y-1, x+1, state, thru, True)
-                state[y][x+1].damage(y, x+1, state, thru, True)
+                state[y-1][x+1].damage(y-1, x+1, state, thru, True, False)
+                state[y][x+1].damage(y, x+1, state, thru, True, False)
 
         if y != rows-1:
-            state[y+1][x].damage(y+1, x, state, thru, True)
+            state[y+1][x].damage(y+1, x, state, thru, True, False)
             
             if x != 0:
-                state[y+1][x-1].damage(y+1, x-1, state, thru, True)
+                state[y+1][x-1].damage(y+1, x-1, state, thru, True, False)
             
             if x != columns-1:
-                state[y+1][x+1].damage(y+1, x+1, state, thru, True)
+                state[y+1][x+1].damage(y+1, x+1, state, thru, True, False)

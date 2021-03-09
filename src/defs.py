@@ -19,6 +19,9 @@ MOVE_CURSOR = "\033[%d;%dH"
 """
     Default values for some parameters
 """
+# Number of levels
+NUM_LEVELS = 3
+
 # Length of bricks in terms of ascii characters
 BRICK_LENGTH = 3
 
@@ -73,6 +76,7 @@ FAST_BALL_CHARACTER = 'F'
 PADDLE_GRAB_CHARACTER = 'P'
 THRU_BALL_CHARACTER = 'T'
 LASER_PADDLE_CHARACTER = 'L'
+FIRE_BALL_CHARACTER = 'E'
 
 BASE_POWERUP = "to be or not to be"
 SHRINK_PADDLE = "shrinky paddle"
@@ -81,8 +85,9 @@ FAST_BALL = "speedy bollocks"
 PADDLE_GRAB = "A Jedi craves not attachment"
 THRU_BALL = "Not even Beskar..."
 LASER_PADDLE = "E-WEB Heavy Repeating Blaster"
+FIRE_BALL = "Who needs an imperial star destroyer?"
 
-POWERUP_LIST = [LASER_PADDLE]
+POWERUP_LIST = [SHRINK_PADDLE, GROW_PADDLE, FAST_BALL, PADDLE_GRAB, THRU_BALL, LASER_PADDLE, FIREBALL]
 
 # Print with separator and end defined to be ''
 Print = lambda content: print(*content, sep='', end='', flush=True)

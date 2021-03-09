@@ -9,6 +9,7 @@ class Player:
         self.lives = MAX_LIVES
         self.score = 0
         self.height = None
+        self.width = None
         self.start_time = time.time()
         self.powerups = POWERUP_LIST
         self.active = []
@@ -54,27 +55,33 @@ class Player:
         return self.lives
     
     def try_powerup(self, position, ball, paddle):
+        ball_y, ball_x = ball.velocity
+        velocity = (int(abs(ball_y)), ball_x)
         if random.uniform(0, 1) <= POWERUP_PROBABILITY:
             powerup = random.choice(self.powerups)
             if powerup == SHRINK_PADDLE:
-                self.onscreen.append(ShrinkPaddle(self.height-4, position))
+                self.onscreen.append(ShrinkPaddle(self.height-4, self.width, velocity, position))
                 self.onscreen[-1].draw()
             elif powerup == GROW_PADDLE:
-                self.onscreen.append(GrowPaddle(self.height-4, position))
+                self.onscreen.append(GrowPaddle(self.height-4, self.width, velocity, position))
                 self.onscreen[-1].draw()
             elif powerup == FAST_BALL:
-                self.onscreen.append(FastBall(self.height-4, position))
+                self.onscreen.append(FastBall(self.height-4, self.width, velocity, position))
             elif powerup == PADDLE_GRAB:
-                self.onscreen.append(PaddleGrab(self.height-4, position))
+                self.onscreen.append(PaddleGrab(self.height-4, self.width, velocity, position))
             elif powerup == THRU_BALL:
-                self.onscreen.append(ThruBall(self.height-4, position))
+                self.onscreen.append(ThruBall(self.height-4, self.width, velocity, position))
             elif powerup == LASER_PADDLE:
-                self.onscreen.append(LaserPaddle(self.height-4, position))
+                self.onscreen.append(LaserPaddle(self.height-4, self.width, velocity, position))
+            elif powerup == FIRE_BALL:
+                self.onscreen.append(FireBall(self.height-4, self.width, velocity, position))
     
     def move_powerup(self, ball, paddle, state):
         # Shifting powerups down and applying their effects
         for powerup in self.onscreen:
-            y, x = powerup.position 
+            y, x = powerup.position
+            y = int(y)
+            x = int(x)
             powerup.undraw(state[y-1][(x-1)//3].color)
             ret = powerup.move(paddle)
             

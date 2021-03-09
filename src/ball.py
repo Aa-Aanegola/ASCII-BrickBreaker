@@ -17,7 +17,8 @@ class Ball:
         self.velocity = (-1, self.x - 1 - self.width//2)#random.randint(-PADDLE_LENGTH, PADDLE_LENGTH))
     
         self.thru = False
-    
+        self.fire = False
+        
     # Return the current position of the ball
     def get_position(self):
         return (self.y, self.x)

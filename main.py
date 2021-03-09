@@ -1,4 +1,5 @@
 import colorama
+from src.defs import *
 from src.grid import Grid
 from src.player import Player
 from src.input import *
@@ -17,10 +18,10 @@ getch = Get()
 
 player = Player()
 
-for i in range(0, 3):
+for i in range(0, NUM_LEVELS):
     # Set up level display
     os.system("clear")
-    arena = Grid(f'./extra/level{i}.txt', player)
+    arena = Grid(f'./levels/level{i}.txt', player)
     arena.initialise_display()
     while True:
         # Input 
