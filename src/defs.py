@@ -51,7 +51,7 @@ DFACE = "gravity says hi"
 EXITED = "ggwp"
 
 # Player values
-MAX_LIVES = 500
+MAX_LIVES = 3
 HIT_SCORE = 1
 DESTROY_SCORE = 5
 NO_EFFECT = "Jar Jar Binks"
@@ -72,6 +72,7 @@ GROW_PADDLE_CHARACTER = 'G'
 FAST_BALL_CHARACTER = 'F'
 PADDLE_GRAB_CHARACTER = 'P'
 THRU_BALL_CHARACTER = 'T'
+LASER_PADDLE_CHARACTER = 'L'
 
 BASE_POWERUP = "to be or not to be"
 SHRINK_PADDLE = "shrinky paddle"
@@ -79,9 +80,15 @@ GROW_PADDLE = "paddle go brrr"
 FAST_BALL = "speedy bollocks"
 PADDLE_GRAB = "A Jedi craves not attachment"
 THRU_BALL = "Not even Beskar..."
+LASER_PADDLE = "E-WEB Heavy Repeating Blaster"
 
-
-POWERUP_LIST = [SHRINK_PADDLE, GROW_PADDLE, FAST_BALL, PADDLE_GRAB, THRU_BALL]
+POWERUP_LIST = [LASER_PADDLE]
 
 # Print with separator and end defined to be ''
 Print = lambda content: print(*content, sep='', end='', flush=True)
+
+# Time after which the level moves down a notch
+BRICK_FALL_TIME = 30
+
+# Time interval between two laser beams 
+LASER_INTERVAL = 2

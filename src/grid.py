@@ -5,7 +5,7 @@ from .player import Player
 from .defs import *
 
 class Grid:
-    def __init__(self, path):
+    def __init__(self, path, player):
         """
             Grid contains a grid of bricks
             Grid also stores the ball and paddle objects
@@ -24,9 +24,15 @@ class Grid:
             for i in range(len(level_text[0])):
                 self.state[-1].append(Brick(0))
         
+        self.level_complete = False
+        
         # Helper variables
         self.width = BRICK_LENGTH*len(self.state[0])
         self.height = len(self.state)
+        
+        # Holds the last time the bricks came down
+        self.last_tick = int(time.time())
+        
         
         # Variable to reset the game with a spacebar click
         self.reset = True
@@ -41,10 +47,12 @@ class Grid:
             self.width,
             self.height)    
         
-        self.player = Player(self.height+4)
+        self.player = player
+        player.height = self.height+4
          
     def initialise_display(self):
         # Drawing the brick grid
+        Print([MOVE_CURSOR % (1, 1)])
         for row in self.state:
             for brick in row:
                 Print([brick.color + ' '*BRICK_LENGTH, RESET])
@@ -64,8 +72,16 @@ class Grid:
     
     
     def update(self):
+        # Moving the bricks down before the update
+        if time.time() - self.last_tick >= BRICK_FALL_TIME:
+            if self.brick_fall():
+                return False
+        
         if self.game_over():
             return False
+
+        # Change the rainbow brick colors
+        self.rainbow_update()
 
         # Remove the ball from its current position
         self.ball.undraw()
@@ -76,10 +92,10 @@ class Grid:
         
         
         self.player.move_powerup(self.ball, self.paddle, self.state)
-        
+        self.paddle.update_lasers(self.state, self.player)
         # Redraw the ball, the paddle and the player
-        self.ball.draw()
         self.paddle.draw()
+        self.ball.draw()
         self.player.draw(Brick.count)
       
         return True
@@ -189,7 +205,7 @@ class Grid:
                 grid_x = (cur_x - 1)//BRICK_LENGTH - 1
                 position = (cur_y+1, cur_x)
                 #Print([MOVE_CURSOR % (self.height+11, 0), grid_y, " ", grid_x])
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru, False)
                 
             if break_r and cur_x != self.width:
                 if self.ball.thru:
@@ -198,7 +214,7 @@ class Grid:
                 grid_y = cur_y - 1
                 grid_x = cur_x // BRICK_LENGTH
                 position = (cur_y+1, cur_x)
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru, False)
                 
             if break_u and cur_y != 1:
                 if self.ball.thru:
@@ -207,7 +223,7 @@ class Grid:
                 grid_y = cur_y - 2
                 grid_x = (cur_x-1) // BRICK_LENGTH
                 position = (cur_y+1, cur_x)
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru, False)
                 
             if break_d and cur_y != self.height-1:
                 if self.ball.thru:
@@ -216,7 +232,7 @@ class Grid:
                 grid_y = cur_y
                 grid_x = (cur_x-1) // BRICK_LENGTH
                 position = (cur_y+1, cur_x)
-                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru)
+                destroyed = self.state[grid_y][grid_x].damage(grid_y, grid_x, self.state, self.ball.thru, False)
                 
             if scored:
                 self.player.increment_score(destroyed)
@@ -237,6 +253,7 @@ class Grid:
         
         #Print([MOVE_CURSOR % (self.height+5, 0), y, '    ',  x, '    '])
         # Handles both walls and bricks
+        
         
         if y == 0:
             exit()
@@ -276,8 +293,39 @@ class Grid:
         if self.player.get_lives() == 0:
             return True
         if Brick.count == 0:
+            self.level_complete = True
             return True
         return False
 
     def display_message(self):
         Print([MOVE_CURSOR % (self.height+8, 1), 'Game Over!', MOVE_CURSOR % (self.height+9, 1)])
+        
+    def brick_fall(self):
+        for brick in self.state[-2]:
+            if brick.strength:
+                return True
+        print()
+        # for brick in self.state[-1]:
+        #     if brick.strength:
+        #         self.player.lives = 0
+        #         return True 
+            
+        new_state = []
+        new_state.append([])
+        for i in range(len(self.state[0])):
+            new_state[0].append(Brick(0))
+        for i in range(0, len(self.state)-1):
+            new_state.append([])
+            for j in range(len(self.state[i])):
+                new_state[i+1].append(self.state[i][j])
+        
+        
+        self.state = new_state
+        self.last_tick = int(time.time())
+        self.initialise_display()
+        return False
+    
+    def rainbow_update(self):
+        for i in range(len(self.state)):
+            for j in range(len(self.state[i])):
+                self.state[i][j].change_color(i, j)

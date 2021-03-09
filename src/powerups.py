@@ -16,7 +16,7 @@ class Powerup:
         self.start = int(time.time())
         return 
     
-    def remove_affect(self):
+    def remove_effect(self):
         return
     
     def expired(self):
@@ -102,3 +102,16 @@ class ThruBall(Powerup):
     
     def remove_effect(self, ball, paddle):
         ball.thru = False
+        
+class LaserPaddle(Powerup):
+    def __init__(self, bound, position):
+        super().__init__(bound, position)
+        self.type = LASER_PADDLE
+        self.character = LASER_PADDLE_CHARACTER
+        
+    def apply_effect(self, ball, paddle):
+        paddle.laser = True
+    
+    def remove_effect(self, ball, paddle):
+        paddle.laser = False 
+        Print([MOVE_CURSOR % (paddle.height-1, 1), ' '*45])

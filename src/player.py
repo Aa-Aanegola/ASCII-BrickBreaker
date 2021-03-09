@@ -1,11 +1,14 @@
 from .defs import *
 from .powerups import *
+from .paddle import Paddle
+from .brick import Brick
+from .ball import Ball
 
 class Player:
-    def __init__(self, height):
+    def __init__(self):
         self.lives = MAX_LIVES
         self.score = 0
-        self.height = height
+        self.height = None
         self.start_time = time.time()
         self.powerups = POWERUP_LIST
         self.active = []
@@ -37,6 +40,16 @@ class Player:
             powerup.undraw(state[y-1][(x-1)//3].color)
             self.onscreen.remove(powerup)
         
+    def new_level(self, ball, paddle, state):
+        for powerup in self.active:
+            powerup.remove_effect(ball, paddle)
+            self.active.remove(powerup)
+        
+        for powerup in self.onscreen:
+            y, x = powerup.position
+            powerup.undraw(state[y-1][(x-1)//3].color)
+            self.onscreen.remove(powerup)
+        
     def get_lives(self):
         return self.lives
     
@@ -55,6 +68,8 @@ class Player:
                 self.onscreen.append(PaddleGrab(self.height-4, position))
             elif powerup == THRU_BALL:
                 self.onscreen.append(ThruBall(self.height-4, position))
+            elif powerup == LASER_PADDLE:
+                self.onscreen.append(LaserPaddle(self.height-4, position))
     
     def move_powerup(self, ball, paddle, state):
         # Shifting powerups down and applying their effects
