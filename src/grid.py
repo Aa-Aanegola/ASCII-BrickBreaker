@@ -330,6 +330,7 @@ class Grid:
         return False
 
     def display_message(self):
+        os.system('clear')
         Print([MOVE_CURSOR % (self.height+8, 1), 'Game Over!', MOVE_CURSOR % (self.height+9, 1)])
         
     def brick_fall(self):

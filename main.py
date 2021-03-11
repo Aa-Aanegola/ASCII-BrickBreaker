@@ -6,7 +6,6 @@ from src.input import *
 from src.paddle import Paddle
 from src.brick import Brick, UFO
 from src.ball import Ball
-import os
 
 # We need to clear the screen for cursor position
 os.system('clear')

@@ -22,6 +22,7 @@ class Player:
             self.score += DESTROY_SCORE
         elif destroyed == UFO_DESTROYED:
             self.score += UFO_SCORE
+            Brick.count = 0
         else:
             self.score += HIT_SCORE
     

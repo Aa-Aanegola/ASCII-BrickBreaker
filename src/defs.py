@@ -2,6 +2,7 @@ import colorama
 import random
 import time
 import copy
+import os
 
 # Colorama colors
 RED = colorama.Back.RED 
@@ -55,7 +56,7 @@ DFACE = "gravity says hi"
 EXITED = "ggwp"
 
 # Player values
-MAX_LIVES = 3
+MAX_LIVES = 500
 HIT_SCORE = 1
 DESTROY_SCORE = 5
 UFO_SCORE = 100
