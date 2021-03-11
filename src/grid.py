@@ -1,5 +1,5 @@
 from .paddle import Paddle
-from .brick import Brick
+from .brick import Brick, UFO
 from .ball import Ball
 from .player import Player
 from .defs import *
@@ -18,7 +18,10 @@ class Grid:
         for row in level_text:
             self.state.append([])
             for type in row:
-                self.state[-1].append(Brick(int(type)))
+                if type == 'U':
+                    self.state[-1].append(UFO())
+                else:    
+                    self.state[-1].append(Brick(int(type)))
         for i in range(EMPTY_ROWS):
             self.state.append([])
             for i in range(len(level_text[0])):
@@ -50,7 +53,13 @@ class Grid:
         self.player = player
         player.height = self.height+4
         player.width = self.width
-         
+        
+        # Flag that holds True if a UFO exists
+        self.ufo = False
+        self.last_row = int(time.time())
+        self.last_bomb = int(time.time())
+        self.num_row = 2
+        
     def initialise_display(self):
         # Drawing the brick grid
         Print([MOVE_CURSOR % (1, 1)])
@@ -65,6 +74,9 @@ class Grid:
         
         # Drawing the ball
         self.ball.draw()    
+        
+        # UFO health bar
+        self.ufo_health()
         
         #Display player info
         self.player.draw(Brick.count)
@@ -86,7 +98,11 @@ class Grid:
 
         # Remove the ball from its current position
         self.ball.undraw()
-    
+
+        # UFO health bar and powers
+        self.ufo_health()
+        self.ufo_update()
+        
         # Check for ball collisions        
         if self.reset == False:
             self.move_ball()
@@ -110,13 +126,28 @@ class Grid:
             if self.reset and can_move:
                 self.ball.undraw()
                 self.ball.move(LEFT)
-
+            
         elif keystroke == 'd':
             can_move = self.paddle.move(RIGHT)
             if self.reset and can_move:
                 self.ball.undraw()
                 self.ball.move(RIGHT)
 
+        ufo_pos = self.paddle.position // 3
+        for i in range(len(self.state)):
+            for j in range(len(self.state[i])):
+                if self.state[i][j].ufo == True:
+                    temp = copy.deepcopy(self.state[i][j])
+                    del self.state[i][j]
+                    self.state[i].append(Brick(0))
+                    self.state[i][ufo_pos] = temp
+                    Print([MOVE_CURSOR % (i+1, 1), RESET])
+                    for brick in self.state[i]:
+                        Print([brick.color, ' '*BRICK_LENGTH, RESET])
+
+        if keystroke == 'n':
+            Brick.count = 0
+        
         elif keystroke == 'q':
             return False 
         return True
@@ -237,7 +268,7 @@ class Grid:
                 
             if scored:
                 self.player.increment_score(destroyed)
-                if destroyed == DESTROYED:
+                if destroyed == DESTROYED and self.ufo == False:
                     self.player.try_powerup(position, self.ball, self.paddle)
         
         new_position = (cur_y, cur_x)
@@ -330,3 +361,29 @@ class Grid:
         for i in range(len(self.state)):
             for j in range(len(self.state[i])):
                 self.state[i][j].change_color(i, j)
+        
+    def ufo_health(self):
+        for row in self.state:
+            for brick in row:
+                if brick.ufo:
+                    self.ufo = True
+                    Print([MOVE_CURSOR % (self.height+6, 1), RESET, 'UFO Health : ', brick.strength, '      '])
+                    
+    def ufo_update(self):
+        if self.ufo == False:
+            return 
+        for i in range(len(self.state)):
+            for j in range(len(self.state[i])):
+                if self.state[i][j].ufo:
+                    if int(time.time()) - self.last_bomb >= UFO_BOMB_DELAY:
+                        self.player.spawn_bomb(((i+1, j*3+2)))
+                        self.last_bomb = int(time.time())
+
+                    if self.state[i][j].strength <= UFO_HEALTH and int(time.time()) - self.last_row > UFO_ROW_DELAY and self.num_row:
+                        self.num_row -= 1
+                        self.last_row = int(time.time())
+                        for brick in self.state[i+1]:
+                            del brick
+                        self.state[i+1].clear()
+                        for k in range(len(self.state[0])):
+                            self.state[i+1].append(Brick(6))

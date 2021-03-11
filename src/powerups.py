@@ -61,11 +61,11 @@ class ShrinkPaddle(Powerup):
         self.type = SHRINK_PADDLE
         self.character = SHRINK_PADDLE_CHARACTER
         
-    def apply_effect(self, ball, paddle):
+    def apply_effect(self, ball, paddle, player):
         self.start = int(time.time())
         paddle.shrink()
         
-    def remove_effect(self, ball, paddle):
+    def remove_effect(self, ball, paddle, player):
         paddle.reset_length() 
         
 class GrowPaddle(Powerup):
@@ -74,10 +74,10 @@ class GrowPaddle(Powerup):
         self.type = GROW_PADDLE
         self.character = GROW_PADDLE_CHARACTER
         
-    def apply_effect(self, ball, paddle):
+    def apply_effect(self, ball, paddle, player):
         paddle.grow()
     
-    def remove_effect(self, ball, paddle):
+    def remove_effect(self, ball, paddle, player):
         paddle.reset_length()
                 
 class FastBall(Powerup):
@@ -86,10 +86,10 @@ class FastBall(Powerup):
         self.type = FAST_BALL
         self.character = FAST_BALL_CHARACTER
         
-    def apply_effect(self, ball, paddle):
+    def apply_effect(self, ball, paddle, player):
         ball.multiplier = 2
     
-    def remove_effect(self, ball, paddle):
+    def remove_effect(self, ball, paddle, player):
         ball.multiplier = 1
         
 class PaddleGrab(Powerup):
@@ -98,10 +98,10 @@ class PaddleGrab(Powerup):
         self.type = PADDLE_GRAB
         self.character = PADDLE_GRAB_CHARACTER
         
-    def apply_effect(self, ball, paddle):
+    def apply_effect(self, ball, paddle, player):
         paddle.grab = True
     
-    def remove_effect(self, ball, paddle):
+    def remove_effect(self, ball, paddle, player):
         paddle.grab = False
         
 class ThruBall(Powerup):
@@ -110,10 +110,10 @@ class ThruBall(Powerup):
         self.type = THRU_BALL
         self.character = THRU_BALL_CHARACTER
         
-    def apply_effect(self, ball, paddle):
+    def apply_effect(self, ball, paddle, player):
         ball.thru = True
     
-    def remove_effect(self, ball, paddle):
+    def remove_effect(self, ball, paddle, player):
         ball.thru = False
         
 class LaserPaddle(Powerup):
@@ -122,10 +122,10 @@ class LaserPaddle(Powerup):
         self.type = LASER_PADDLE
         self.character = LASER_PADDLE_CHARACTER
         
-    def apply_effect(self, ball, paddle):
+    def apply_effect(self, ball, paddle, player):
         paddle.laser = True
     
-    def remove_effect(self, ball, paddle):
+    def remove_effect(self, ball, paddle, player):
         paddle.laser = False 
         Print([MOVE_CURSOR % (paddle.height-1, 1), ' '*45])
 
@@ -135,8 +135,20 @@ class FireBall(Powerup):
         self.type = FIRE_BALL
         self.character = FIRE_BALL_CHARACTER
     
-    def apply_effect(self, ball, paddle):
+    def apply_effect(self, ball, paddle, player):
         ball.fire = True
     
-    def remove_effect(self, ball, paddle):
+    def remove_effect(self, ball, paddle, player):
         ball.fire = False
+
+class Bomb(Powerup):
+    def __init(self, height, width, velocit, position):
+        super().__init__()
+        self.type = UFO_BOMB
+        self.character = 'O'
+    
+    def apply_effect(self, ball, paddle, player):
+        player.lives -= 1
+    
+    def remove_effect(self, ball, paddle, player):
+        return

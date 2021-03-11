@@ -4,7 +4,7 @@ from src.grid import Grid
 from src.player import Player
 from src.input import *
 from src.paddle import Paddle
-from src.brick import Brick
+from src.brick import Brick, UFO
 from src.ball import Ball
 import os
 
@@ -18,7 +18,7 @@ getch = Get()
 
 player = Player()
 
-for i in range(0, NUM_LEVELS):
+for i in range(1, NUM_LEVELS+1):
     # Set up level display
     os.system("clear")
     arena = Grid(f'./levels/level{i}.txt', player)
@@ -34,7 +34,7 @@ for i in range(0, NUM_LEVELS):
         if arena.update() == False:
             break
     
-    if arena.level_complete == False:
+    if arena.level_complete == False or i == NUM_LEVELS:
         arena.display_message()
         break
     player.new_level(arena.ball, arena.paddle, arena.state)

@@ -37,7 +37,7 @@ class Paddle:
         for shot in self.shots:
             y, x = shot
             if state[y-2][(x-1)//3].notEmpty():
-                ret = state[y-2][(x-1)//3].damage(y-2, (x-1)//3, state, False, False)
+                ret = state[y-2][(x-1)//3].damage(y-2, (x-1)//3, state, False, False, False)
                 if ret == DAMAGED:
                     player.score += HIT_SCORE
                 elif ret == DESTROYED:

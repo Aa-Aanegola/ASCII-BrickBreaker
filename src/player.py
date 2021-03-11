@@ -1,7 +1,7 @@
 from .defs import *
 from .powerups import *
 from .paddle import Paddle
-from .brick import Brick
+from .brick import Brick, UFO
 from .ball import Ball
 
 class Player:
@@ -20,6 +20,8 @@ class Player:
             return
         elif destroyed == DESTROYED:
             self.score += DESTROY_SCORE
+        elif destroyed == UFO_DESTROYED:
+            self.score += UFO_SCORE
         else:
             self.score += HIT_SCORE
     
@@ -33,7 +35,7 @@ class Player:
         self.lives -= 1
         
         for powerup in self.active:
-            powerup.remove_effect(ball, paddle)
+            powerup.remove_effect(ball, paddle, self)
             self.active.remove(powerup)
         
         for powerup in self.onscreen:
@@ -43,7 +45,7 @@ class Player:
         
     def new_level(self, ball, paddle, state):
         for powerup in self.active:
-            powerup.remove_effect(ball, paddle)
+            powerup.remove_effect(ball, paddle, self)
             self.active.remove(powerup)
         
         for powerup in self.onscreen:
@@ -76,6 +78,9 @@ class Player:
             elif powerup == FIRE_BALL:
                 self.onscreen.append(FireBall(self.height-4, self.width, velocity, position))
     
+    def spawn_bomb(self, position):
+        self.onscreen.append(Bomb(self.height-4, self.width, (1, 0), position))
+    
     def move_powerup(self, ball, paddle, state):
         # Shifting powerups down and applying their effects
         for powerup in self.onscreen:
@@ -99,7 +104,7 @@ class Player:
                         self.active.remove(temp)
                 
                 self.active.append(powerup)
-                self.active[-1].apply_effect(ball, paddle)
+                self.active[-1].apply_effect(ball, paddle, self)
                 
             elif ret == KEEP_POWERUP:
                 powerup.draw()                
@@ -110,5 +115,5 @@ class Player:
         # Removing expired powerups
         for powerup in self.active:
             if powerup.expired():
-                powerup.remove_effect(ball, paddle)
+                powerup.remove_effect(ball, paddle, self)
                 self.active.remove(powerup)

@@ -1,6 +1,7 @@
 import colorama
 import random
 import time
+import copy
 
 # Colorama colors
 RED = colorama.Back.RED 
@@ -57,10 +58,11 @@ EXITED = "ggwp"
 MAX_LIVES = 3
 HIT_SCORE = 1
 DESTROY_SCORE = 5
+UFO_SCORE = 100
 NO_EFFECT = "Jar Jar Binks"
-DESTROYED = "Death Star"
+DESTROYED = "Alderaan"
 DAMAGED = "Anakin Skywalker"
-
+UFO_DESTROYED = "Death Star"
 
 # Powerup related definitions 
 POWERUP_DURATION = 10
@@ -87,7 +89,7 @@ THRU_BALL = "Not even Beskar..."
 LASER_PADDLE = "E-WEB Heavy Repeating Blaster"
 FIRE_BALL = "Who needs an imperial star destroyer?"
 
-POWERUP_LIST = [SHRINK_PADDLE, GROW_PADDLE, FAST_BALL, PADDLE_GRAB, THRU_BALL, LASER_PADDLE, FIREBALL]
+POWERUP_LIST = [SHRINK_PADDLE, GROW_PADDLE, FAST_BALL, PADDLE_GRAB, THRU_BALL, LASER_PADDLE, FIRE_BALL]
 
 # Print with separator and end defined to be ''
 Print = lambda content: print(*content, sep='', end='', flush=True)
@@ -97,3 +99,8 @@ BRICK_FALL_TIME = 30
 
 # Time interval between two laser beams 
 LASER_INTERVAL = 2
+
+# UFO defs
+UFO_HEALTH = 10
+UFO_ROW_DELAY = 20
+UFO_BOMB_DELAY = 3
