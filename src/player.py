@@ -48,6 +48,11 @@ class Player:
         for powerup in self.active:
             powerup.remove_effect(ball, paddle, self)
             self.active.remove(powerup)
+            
+        for powerup in self.onscreen:
+            y, x = powerup.position
+            powerup.undraw(state[y-1][(x-1)//3].color)
+            self.onscreen.remove(powerup)
         
         for powerup in self.onscreen:
             y, x = powerup.position

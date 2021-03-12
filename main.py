@@ -20,7 +20,7 @@ player = Player()
 for i in range(1, NUM_LEVELS+1):
     # Set up level display
     os.system("clear")
-    arena = Grid(f'./levels/level{i}.txt', player)
+    arena = Grid(f'./levels/level{i}.dat', player)
     arena.initialise_display()
     while True:
         # Input 

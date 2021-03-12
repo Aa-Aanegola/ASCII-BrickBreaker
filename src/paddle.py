@@ -43,6 +43,8 @@ class Paddle:
                 elif ret == DESTROYED:
                     player.score += DESTROY_SCORE
                 self.shots.remove((y, x))
+            elif y == 2:
+                self.shots.remove((y, x))
             else:
                 self.shots.remove((y, x))
                 self.shots.append((y-1, x))

@@ -331,7 +331,9 @@ class Grid:
 
     def display_message(self):
         os.system('clear')
-        Print([MOVE_CURSOR % (self.height+8, 1), 'Game Over!', MOVE_CURSOR % (self.height+9, 1)])
+        Print([MOVE_CURSOR % (self.height+8, 1), 'Game Over! Your score was: ', self.player.score,
+               ', and you survived: ', int(time.time()-self.player.start_time),
+                ' seconds', MOVE_CURSOR % (self.height+9, 1)])
         
     def brick_fall(self):
         for brick in self.state[-2]:
@@ -368,7 +370,7 @@ class Grid:
             for brick in row:
                 if brick.ufo:
                     self.ufo = True
-                    Print([MOVE_CURSOR % (self.height+6, 1), RESET, 'UFO Health : ', brick.strength, '      '])
+                    Print([MOVE_CURSOR % (self.height+6, 1), RESET, 'UFO Health : ', '#'*brick.strength, ' '*10])
                     
     def ufo_update(self):
         if self.ufo == False:
