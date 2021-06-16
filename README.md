@@ -1,5 +1,6 @@
 # ASCII BrickBreaker
 Smash your way through the preset levels with the help of quirky and entertaining powerups. If the preset levels aren't challenging enough, feel free to create your own levels and test your skills. 
+
 ![demo](./img/demo.gif)
 
 ### How to start the game
